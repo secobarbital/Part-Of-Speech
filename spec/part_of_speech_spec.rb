@@ -7,4 +7,10 @@ describe "PartOfSpeech" do
     a[1][1].should == "JJ"
     a[2][1].should == "NN"
   end
+
+  it "should tag words that are not in the lexicon consistently" do
+    pos = PartOfSpeech.new(lexicon_path)
+    text = "joker facebook"
+    pos.tag(text).should == pos.tag(text)
+  end
 end

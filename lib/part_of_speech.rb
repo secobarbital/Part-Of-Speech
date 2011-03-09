@@ -8,7 +8,7 @@ class PartOfSpeech
   
   # Place corpus into memory
   def initialize(lexicon_path)
-    @lexicons = Hash.new {|hash, k| hash[k] = []}
+    @lexicons = Hash.new
     File.open(lexicon_path, 'r').each do |line|
       line = line.split
       @lexicons[line.shift] = line
@@ -114,7 +114,7 @@ class PartOfSpeech
     ## rule 9: <noun> <noun 2> --> <noun> <verb> if <noun 2> can also be a verb
     return unless index > 0
 
-    if @pos[index-1] =~ /^NN/  && @pos[index] =~ /^NN/
+    if @pos[index-1] =~ /^NN/ && @pos[index] =~ /^NN/ && @lexicons.key?(@text[index])
       if @lexicons[@text[index]].include?("VBN")
         @pos[index] = "VBN"
       end
@@ -123,5 +123,4 @@ class PartOfSpeech
       end
     end
   end
-        
 end
